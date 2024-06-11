@@ -14,14 +14,7 @@ const HeroCompanyMembers: React.FC = () => {
           name="Cassiel Machado"
           image="/hero/members/cassiel.jpeg"
         />
-        <CompanyMemberItem
-          name="Wictor Mendes"
-          image="/hero/members/wictor.jpeg"
-        />
-        <CompanyMemberItem
-          name="Wictor Mendes"
-          image="/hero/members/wictor.jpeg"
-        />
+        <CompanyMemberItem name="João Paulo" image="/hero/members/joao.jpeg" />
       </ul>
     </div>
   );
