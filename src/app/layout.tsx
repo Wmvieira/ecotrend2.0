@@ -8,6 +8,7 @@ export const metadata = {
   title: "Ecotrend",
   description: "A comunidade que cuida do meio ambiente",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

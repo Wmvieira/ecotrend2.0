@@ -3,8 +3,15 @@
  * for Docker builds.
  */
 await import("./src/env.js");
+import WithPWA from "next-pwa";
 
-/** @type {import("next").NextConfig} */
-const config = {};
+/** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+let withPWA = WithPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+  //   disable: process.env.NODE_ENV === "development",
+});
 
-export default config;
+export default withPWA;
