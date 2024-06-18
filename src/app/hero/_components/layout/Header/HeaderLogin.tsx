@@ -10,7 +10,7 @@ export default function HeaderLogin() {
           <Button>Entrar</Button>
         </DialogTrigger>
         <DialogContent className="flex justify-center">
-          <SignIn />
+          <SignIn forceRedirectUrl="/dashboard" />
         </DialogContent>
       </Dialog>
     </div>

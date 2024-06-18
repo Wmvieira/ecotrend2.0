@@ -13,7 +13,7 @@ const HeroRequestJoin: React.FC = () => {
               <Button>Junte-se a nós</Button>
             </DialogTrigger>
             <DialogContent className="flex justify-center">
-              <SignIn />
+              <SignIn forceRedirectUrl="/dashboard" />
             </DialogContent>
           </Dialog>
         </div>
