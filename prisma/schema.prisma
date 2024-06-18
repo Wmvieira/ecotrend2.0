@@ -9,18 +9,19 @@ datasource db {
 }
 
 model User {
-    id        String    @id @default(uuid())
-    clerkId   String    @unique
-    username  String?
-    email     String?
-    password  String?
-    createdAt DateTime  @default(now())
-    lastLogin DateTime?
-    bio       String?
-    avatar    String?
-    tips      Tip[]
-    comments  Comment[]
-    ratings   Rating[]
+    id                  String     @id @default(uuid())
+    clerkId             String     @unique
+    username            String?
+    email               String?
+    createdAt           DateTime   @default(now())
+    lastLogin           DateTime?
+    avatar              String?
+    tips                Tip[]
+    comments            Comment[]
+    ratings             Rating[]
+    followingUsers      User[]     @relation("UserFollows")
+    followedByUsers     User[]     @relation("UserFollows")
+    followingCategories Category[] @relation("UserCategories")
 }
 
 model Tip {
@@ -45,9 +46,10 @@ model Pictures {
 }
 
 model Category {
-    id   String @id @default(uuid())
-    name String @unique
-    Tip  Tip[]
+    id              String @id @default(uuid())
+    name            String @unique
+    tip             Tip[]
+    followedByUsers User[] @relation("UserCategories")
 }
 
 model Comment {
