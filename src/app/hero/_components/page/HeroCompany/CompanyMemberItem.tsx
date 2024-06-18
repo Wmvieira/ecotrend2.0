@@ -36,7 +36,7 @@ const CompanyMemberItem: React.FC<CompanyMemberItemProps> = ({
           </Tooltip>
         </TooltipProvider>
       </div>
-      <h3 className="hidden md:block">{name}</h3>
+      <h3 className="text-xs md:text-base">{name}</h3>
     </li>
   );
 };
