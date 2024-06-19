@@ -1,30 +1,24 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const tipRouter = createTRPCRouter({
-  getTips: publicProcedure
+export const commentsRouter = createTRPCRouter({
+  getCommentsForTip: publicProcedure
     .input(
       z.object({
-        limit: z.number().default(10),
+        tipId: z.string().uuid(),
+        limit: z.number().default(3),
         cursor: z.string().uuid().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      const tips = await ctx.db.tip.findMany({
+      const comments = await ctx.db.comment.findMany({
+        where: { tipId: input.tipId },
         cursor: input.cursor ? { id: input.cursor } : undefined,
         take: input.limit + 1,
         orderBy: { createdAt: "desc" },
         select: {
           id: true,
-          createdAt: true,
-          title: true,
           content: true,
-          ratings: {
-            select: {
-              positive: true,
-              userId: true,
-            },
-          },
           user: {
             select: {
               id: true,
@@ -32,21 +26,17 @@ export const tipRouter = createTRPCRouter({
               username: true,
             },
           },
-          _count: {
-            select: {
-              comments: true,
-            },
-          },
+          createdAt: true,
         },
       });
 
       let nextCursor: typeof input.cursor | undefined;
 
-      if (tips.length > input.limit) {
-        const nextItem = tips.pop();
+      if (comments.length > input.limit) {
+        const nextItem = comments.pop();
         if (nextItem?.id) nextCursor = nextItem.id;
       }
 
-      return { tips, nextCursor };
+      return { comments, nextCursor };
     }),
 });

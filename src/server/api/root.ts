@@ -1,5 +1,6 @@
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { tipRouter } from "./routers/tip";
+import { commentsRouter } from "./routers/comments";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { tipRouter } from "./routers/tip";
  */
 export const appRouter = createTRPCRouter({
   tip: tipRouter,
+  comment: commentsRouter,
 });
 
 // export type definition of API

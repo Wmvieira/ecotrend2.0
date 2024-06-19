@@ -1,5 +1,5 @@
 import React from "react";
-import Tips from "./_component/layout/Tips/Tips";
+import Tips from "./_component/page/Tips/Tips";
 
 const DashboardPage: React.FC = () => {
   return (

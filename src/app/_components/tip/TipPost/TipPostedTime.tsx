@@ -5,7 +5,7 @@ import dayjs from "~/lib/dayjs";
 const TipPostedTime: React.FC<TipPostedTimeProps> = (date) => {
   const relativePostTime = dayjs(date).fromNow();
 
-  return <span>{relativePostTime}</span>;
+  return <span className="my-auto text-xs">{relativePostTime}</span>;
 };
 
 export default TipPostedTime;
