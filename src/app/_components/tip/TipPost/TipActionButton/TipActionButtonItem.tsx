@@ -16,11 +16,11 @@ const TipActionButtonItem: React.FC<TipActionButtonItemProps> = ({
 }) => {
   return (
     <Button
-      className={`p-0 text-2xl ${checked ? checkedClass : ""}`}
+      className={`p-0 ${checked ? checkedClass : ""}`}
       variant="ghost"
       onClick={onClick}
     >
-      {icon}
+      <div className="h-8 w-8">{icon}</div>
     </Button>
   );
 };

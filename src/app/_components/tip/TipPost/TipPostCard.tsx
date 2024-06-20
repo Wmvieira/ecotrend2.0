@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,6 +24,8 @@ export type TipPostContentProps = {
 };
 export type TipActionsButtonProps = {
   id: TipPostProps["id"];
+  ratings: TipPostProps["ratings"];
+  setRatings: (ratings: TipPostProps["ratings"]) => void;
 };
 export type TipCommentsCountProps = {
   id: TipPostProps["id"];
@@ -40,6 +44,8 @@ const TipPostCard: React.FC<TipPostProps> = ({
   ratings,
   _count,
 }) => {
+  const [newRatings, setNewRatings] = useState(ratings);
+
   return (
     <Card className="relative overflow-hidden">
       <CardHeader>
@@ -53,11 +59,15 @@ const TipPostCard: React.FC<TipPostProps> = ({
       </CardContent>
       <CardFooter className="py-2">
         <div className="flex w-full flex-col justify-start">
-          <TipActionsButton id={id} />
+          <TipActionsButton
+            id={id}
+            ratings={newRatings}
+            setRatings={setNewRatings}
+          />
           <TipCommentsCount id={id} count={_count.comments} />
         </div>
       </CardFooter>
-      <TipPostTrending ratings={ratings} />
+      <TipPostTrending ratings={newRatings} />
     </Card>
   );
 };

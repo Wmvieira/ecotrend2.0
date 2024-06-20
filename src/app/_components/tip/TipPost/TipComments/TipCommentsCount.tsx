@@ -1,11 +1,11 @@
 import React from "react";
 import { type TipCommentsCountProps } from "../TipPostCard";
-import TipOpenComments from "./TipOpenComments";
+import TipCommentsDrawer from "./TipCommentsDrawer";
 
 const TipCommentsCount: React.FC<TipCommentsCountProps> = ({ id, count }) => {
   return (
     <div>
-      <TipOpenComments
+      <TipCommentsDrawer
         tipId={id}
         trigger={
           <span className="text-xm hover:text-gray-700">

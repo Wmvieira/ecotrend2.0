@@ -1,6 +1,6 @@
 import React from "react";
 import { PiChatCircle } from "react-icons/pi";
-import TipOpenComments from "../TipComments/TipOpenComments";
+import TipCommentsDrawer from "../TipComments/TipCommentsDrawer";
 
 interface TipCommentButtonProps {
   tipId: string;
@@ -8,11 +8,11 @@ interface TipCommentButtonProps {
 
 const TipCommentButton: React.FC<TipCommentButtonProps> = ({ tipId }) => {
   return (
-    <TipOpenComments
+    <TipCommentsDrawer
       tipId={tipId}
       trigger={
         <div className="my-auto">
-          <div className="p-0 text-2xl">{<PiChatCircle />}</div>
+          <div className="p-0">{<PiChatCircle className="h-8 w-8" />}</div>
         </div>
       }
     />
