@@ -8,16 +8,16 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import { type RouterOutputs } from "~/trpc/react";
-import TipAuthor from "./TipAuthor";
 import TipPostedTime from "./TipPostedTime";
 import TipPostContent from "./TipPostContent";
 import TipActionsButton from "./TipActionButton/TipActionsButton";
 import TipCommentsCount from "./TipComments/TipCommentsCount";
 import TipPostTrending from "./TipPostTrending";
+import TipPostAuthor from "./TipPostAuthor";
 
 type TipPostProps = RouterOutputs["tip"]["getTips"]["tips"][number];
 
-export type TipAuthorProps = TipPostProps["author"];
+export type TipPostAuthorProps = TipPostProps["author"];
 export type TipPostedTimeProps = TipPostProps["createdAt"];
 export type TipPostContentProps = {
   content: TipPostProps["content"];
@@ -51,7 +51,7 @@ const TipPostCard: React.FC<TipPostProps> = ({
     <Card className="relative overflow-hidden">
       <CardHeader>
         <div className="flex flex-row justify-between">
-          <TipAuthor {...author} />
+          <TipPostAuthor {...author} />
           <TipPostedTime {...createdAt} />
         </div>
       </CardHeader>

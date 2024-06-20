@@ -2,6 +2,7 @@
 
 import React from "react";
 import TipPostCard from "~/app/_components/tip/TipPost/TipPostCard";
+import TipPostSkeleton from "~/app/_components/tip/TipPost/TipPostSkeleton";
 import { api } from "~/trpc/react";
 
 const Tips = () => {
@@ -15,6 +16,7 @@ const Tips = () => {
   return (
     <div className="flex flex-col justify-center gap-5 p-2">
       {tips?.map((tip) => <TipPostCard {...tip} key={tip.id} />)}
+      {isLoading && <TipPostSkeleton />}
     </div>
   );
 };

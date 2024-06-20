@@ -1,6 +1,7 @@
 import React from "react";
 import { api, type RouterInputs, type RouterOutputs } from "~/trpc/react";
 import TipCommentItem from "./TipCommentItem";
+import TipCommentSkeleton from "./TipCommentSkeleton";
 
 interface TipCommentsProps {
   tipId: string;
@@ -33,6 +34,7 @@ const TipComments: React.FC<TipCommentsProps> = ({ tipId }) => {
         {comments?.map((comment) => (
           <TipCommentItem key={comment.id} {...comment} />
         ))}
+        {isLoading && <TipCommentSkeleton />}
       </div>
     </div>
   );
