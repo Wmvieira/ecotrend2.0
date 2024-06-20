@@ -3,12 +3,12 @@ import { type TipCommentItemInfoProps } from "./TipCommentItem";
 import dayjs from "~/lib/dayjs";
 
 const TipCommentItemInfo: React.FC<TipCommentItemInfoProps> = ({
-  user,
+  author,
   createdAt,
 }) => {
   return (
     <div className="flex flex-row gap-1">
-      <span>{user.username}</span>
+      <span>{author.username}</span>
       <span className="my-auto text-xs text-primary-foreground/60">
         {dayjs(createdAt).fromNow()}
       </span>

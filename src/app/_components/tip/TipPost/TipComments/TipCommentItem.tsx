@@ -5,10 +5,10 @@ import TipCommentItemInfo from "./TipCommentItemInfo";
 import TipCommentContent from "./TipCommentContent";
 
 export type TipCommentItemAuthorProps = {
-  user: TipCommentItemProps["user"];
+  author: TipCommentItemProps["author"];
 };
 export type TipCommentItemInfoProps = {
-  user: TipCommentItemProps["user"];
+  author: TipCommentItemProps["author"];
   createdAt: TipCommentItemProps["createdAt"];
 };
 export type TipCommentContentProps = {
@@ -17,15 +17,15 @@ export type TipCommentContentProps = {
 
 const TipCommentItem: React.FC<TipCommentItemProps> = ({
   id,
-  user,
+  author,
   content,
   createdAt,
 }) => {
   return (
     <div className="flex w-full flex-row gap-2">
-      <TipCommentItemAuthor user={user} />
+      <TipCommentItemAuthor author={author} />
       <div className="flex flex-col gap-1">
-        <TipCommentItemInfo user={user} createdAt={createdAt} />
+        <TipCommentItemInfo author={author} createdAt={createdAt} />
         <TipCommentContent content={content} />
       </div>
     </div>

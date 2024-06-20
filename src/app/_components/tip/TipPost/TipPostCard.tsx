@@ -16,7 +16,8 @@ import TipCommentsCount from "./TipComments/TipCommentsCount";
 import TipPostTrending from "./TipPostTrending";
 
 type TipPostProps = RouterOutputs["tip"]["getTips"]["tips"][number];
-export type TipAuthorProps = TipPostProps["user"];
+
+export type TipAuthorProps = TipPostProps["author"];
 export type TipPostedTimeProps = TipPostProps["createdAt"];
 export type TipPostContentProps = {
   content: TipPostProps["content"];
@@ -38,7 +39,7 @@ export type TipPostTrendingProps = {
 const TipPostCard: React.FC<TipPostProps> = ({
   title,
   content,
-  user,
+  author,
   id,
   createdAt,
   ratings,
@@ -50,7 +51,7 @@ const TipPostCard: React.FC<TipPostProps> = ({
     <Card className="relative overflow-hidden">
       <CardHeader>
         <div className="flex flex-row justify-between">
-          <TipAuthor {...user} />
+          <TipAuthor {...author} />
           <TipPostedTime {...createdAt} />
         </div>
       </CardHeader>

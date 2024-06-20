@@ -1,5 +1,34 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { addUsersToTipWithRatingAndCountComment } from "~/lib/users";
+import { type Prisma, type PrismaClient } from "@prisma/client";
+
+export type TipsWithRatingsAndCountComments = Prisma.PromiseReturnType<
+  typeof getTipsWithRatingsAndCountComments
+>;
+const getTipsWithRatingsAndCountComments = (
+  db: PrismaClient,
+  limit: number,
+  cursor: string | undefined,
+) => {
+  return db.tip.findMany({
+    cursor: cursor ? { id: cursor } : undefined,
+    take: limit + 1,
+    orderBy: { createdAt: "desc" },
+    include: {
+      _count: {
+        select: { comments: true },
+      },
+      ratings: {
+        select: {
+          positive: true,
+          authorId: true,
+          id: true,
+        },
+      },
+    },
+  });
+};
 
 export const tipRouter = createTRPCRouter({
   getTips: publicProcedure
@@ -10,43 +39,21 @@ export const tipRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const tips = await ctx.db.tip.findMany({
-        cursor: input.cursor ? { id: input.cursor } : undefined,
-        take: input.limit + 1,
-        orderBy: { createdAt: "desc" },
-        select: {
-          id: true,
-          createdAt: true,
-          title: true,
-          content: true,
-          ratings: {
-            select: {
-              positive: true,
-              userId: true,
-            },
-          },
-          user: {
-            select: {
-              id: true,
-              avatar: true,
-              username: true,
-            },
-          },
-          _count: {
-            select: {
-              comments: true,
-            },
-          },
-        },
-      });
+      const tips = await getTipsWithRatingsAndCountComments(
+        ctx.db,
+        input.limit,
+        input.cursor,
+      );
 
       let nextCursor: typeof input.cursor | undefined;
+
+      const tipsWithAuthor = await addUsersToTipWithRatingAndCountComment(tips);
 
       if (tips.length > input.limit) {
         const nextItem = tips.pop();
         if (nextItem?.id) nextCursor = nextItem.id;
       }
 
-      return { tips, nextCursor };
+      return { tips: tipsWithAuthor, nextCursor };
     }),
 });
