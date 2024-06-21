@@ -57,14 +57,10 @@ const TipActionsButton: React.FC<TipActionsButtonProps> = ({
       <TipActionButtonItem
         icon={<RatingIcon positive={true} fillColor={myRate == true} />}
         onClick={() => handleRateClick(true)}
-        checked={false}
-        checkedClass="text-green-500"
       />
       <TipActionButtonItem
         icon={<RatingIcon positive={false} fillColor={myRate == false} />}
         onClick={() => handleRateClick(false)}
-        checked={false}
-        checkedClass="text-red-700"
       />
       <TipCommentButton tipId={id} />
     </div>
