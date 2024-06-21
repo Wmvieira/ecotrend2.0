@@ -23,15 +23,15 @@ export type TipCommentsProps = {
 export type TipCommentItemProps =
   RouterOutputs["comment"]["getCommentsForTip"]["comments"][number];
 
-interface TipCommentsDrawerProps {
-  tipId: string;
-  trigger: React.ReactNode;
-}
-
 export type TipCommentCreateProps = {
   tipId: TipCommentsDrawerProps["tipId"];
   setNewComment: (comment: CommentsProps[number]) => void;
 };
+
+interface TipCommentsDrawerProps {
+  tipId: string;
+  trigger: React.ReactNode;
+}
 
 const TipCommentsDrawer: React.FC<TipCommentsDrawerProps> = ({
   tipId,

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { currentUser } from "@clerk/nextjs/server";
 import { TRPCClientError } from "@trpc/client";
+import { addUsersToRates } from "~/lib/users";
 
 export const rateRouter = createTRPCRouter({
   reateTip: publicProcedure
@@ -43,5 +44,33 @@ export const rateRouter = createTRPCRouter({
           },
         });
       }
+    }),
+
+  getAllForTip: publicProcedure
+    .input(
+      z.object({
+        tipId: z.string().uuid(),
+        limit: z.number().default(10),
+        cursor: z.string().optional(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const rates = await ctx.db.rate.findMany({
+        where: {
+          tipId: input.tipId,
+        },
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        take: input.limit + 1,
+        orderBy: [{ createdAt: "desc" }, { id: "asc" }],
+      });
+
+      let nextCursor: typeof input.cursor | undefined;
+      if (rates.length > input.limit) {
+        const nextItem = rates.pop();
+        if (nextItem?.id) nextCursor = nextItem.id;
+      }
+      const ratesWithAuthor = await addUsersToRates(rates);
+
+      return { rates: ratesWithAuthor, nextCursor };
     }),
 });

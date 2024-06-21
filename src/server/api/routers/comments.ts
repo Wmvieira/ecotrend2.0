@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { addUsersToComments } from "~/lib/users";
-import { create } from "domain";
 import { currentUser } from "@clerk/nextjs/server";
 import { TRPCClientError } from "@trpc/client";
 

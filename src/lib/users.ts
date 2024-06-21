@@ -1,5 +1,5 @@
 import { clerkClient, type User } from "@clerk/nextjs/server";
-import { type Comment } from "@prisma/client";
+import { type Rate, type Comment } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { type TipsWithRatingsAndCountComments } from "~/server/api/routers/tip";
 
@@ -60,6 +60,30 @@ export const addUsersToComments = async (comments: Comment[]) => {
 
     return {
       ...comment,
+      author,
+    };
+  });
+};
+
+export const addUsersToRates = async (rate: Rate[]) => {
+  const users = (
+    await clerkClient.users.getUserList({
+      userId: rate.map((rate) => rate.authorId),
+      limit: 100,
+    })
+  ).data.map(filterUserFromClient);
+
+  return rate.map((rate) => {
+    const author = users.find((user) => user.id === rate.authorId);
+
+    if (author === undefined)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Author for comment not found",
+      });
+
+    return {
+      ...rate,
       author,
     };
   });

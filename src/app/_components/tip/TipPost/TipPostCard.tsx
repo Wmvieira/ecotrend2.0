@@ -33,6 +33,7 @@ export type TipCommentsCountProps = {
   count: number;
 };
 export type TipPostTrendingProps = {
+  id: TipPostProps["id"];
   rates: TipPostProps["rates"];
 };
 
@@ -64,7 +65,7 @@ const TipPostCard: React.FC<TipPostProps> = ({
           <TipCommentsCount id={id} count={_count.comments} />
         </div>
       </CardFooter>
-      <TipPostTrending rates={newRates} />
+      <TipPostTrending rates={newRates} id={id} />
     </Card>
   );
 };
