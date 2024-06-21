@@ -34,7 +34,9 @@ const TipCommentsDrawer: React.FC<TipCommentsDrawerProps> = ({
             Comentários da Publicação
           </DrawerTitle>
         </DrawerHeader>
-        <TipComments tipId={tipId} />
+        <div className="h-52 overflow-scroll" id="commentScroll">
+          <TipComments tipId={tipId} />
+        </div>
         <DrawerFooter>
           <TipCommentCreate tipId={tipId} />
         </DrawerFooter>

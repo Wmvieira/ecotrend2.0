@@ -7,7 +7,7 @@ import { api, type RouterOutputs } from "~/trpc/react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "~/components/ui/spinner";
 
-type TipsProps = RouterOutputs["tip"]["getTips"]["tips"][number][];
+type TipsProps = RouterOutputs["tip"]["getTips"]["tips"];
 
 const Tips = () => {
   const {
@@ -34,7 +34,7 @@ const Tips = () => {
       hasMore={hasNextPage}
       next={fetchNextPage}
       loader={<Spinner />}
-      className="flex flex-col justify-center gap-5 overflow-scroll p-2"
+      className="flex flex-col justify-center gap-5 p-2"
       scrollableTarget="feedScroll"
     >
       {isLoading && <TipPostSkeleton />}

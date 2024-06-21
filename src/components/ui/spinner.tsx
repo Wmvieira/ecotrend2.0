@@ -1,7 +1,7 @@
 export default function Spinner() {
   return (
     <span className="mx-auto">
-      <div className="loader h-10 w-10"></div>
+      <div className="loader h-8 w-8"></div>
     </span>
   );
 }
