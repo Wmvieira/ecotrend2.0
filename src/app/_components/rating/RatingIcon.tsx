@@ -11,7 +11,7 @@ const RatingIcon: React.FC<RatingIconProps> = ({ positive, fillColor }) => {
     <>
       {positive ? (
         <PiButterfly
-          className={`h-full w-full ${fillColor ? "text-green-500" : ""}`}
+          className={`h-full w-full ${fillColor ? "text-primary" : ""}`}
         />
       ) : (
         <PiBiohazard

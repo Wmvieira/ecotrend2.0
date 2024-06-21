@@ -22,7 +22,7 @@ const TipPostTrending: React.FC<TipPostTrendingProps> = ({ rates }) => {
         </div>
         <div className="absolute top-[3.5em] flex w-full justify-center rounded-md bg-background">
           <span
-            className={`p-0 text-2xl ${positive ? "text-green-500" : "text-yellow-500"}`}
+            className={`p-0 text-2xl ${positive ? "text-primary" : "text-yellow-500"}`}
           >
             {Math.abs(totalRating)}
           </span>

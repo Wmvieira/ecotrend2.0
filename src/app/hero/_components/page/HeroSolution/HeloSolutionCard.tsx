@@ -24,9 +24,9 @@ const HeroSolutionCard: React.FC<HeroSolutionCardProps> = ({
 }) => {
   return (
     <Card>
-      <CardHeader className="text-primary flex flex-col justify-center gap-2">
+      <CardHeader className="flex flex-col justify-center gap-2 text-primary">
         <CardTitle className="mx-auto text-6xl">{icon}</CardTitle>
-        <CardDescription className="text-primary-foreground text-xl">
+        <CardDescription className="text-xl text-secondary-foreground">
           {title}
         </CardDescription>
       </CardHeader>
