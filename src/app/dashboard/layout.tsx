@@ -11,7 +11,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="h-screen w-screen">
       <Header />
       <div className="flex h-[calc(100%-4em)] w-full flex-col md:h-[calc(100%-6em)] md:flex-row-reverse">
-        <main className="h-full w-full grow overflow-scroll p-2">
+        <main
+          className="h-full w-full grow overflow-scroll p-2"
+          id="feedScroll"
+        >
           {children}
         </main>
         <SideNav />

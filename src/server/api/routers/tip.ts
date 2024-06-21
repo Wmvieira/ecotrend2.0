@@ -6,15 +6,15 @@ import { type Prisma, type PrismaClient } from "@prisma/client";
 export type TipsWithRatingsAndCountComments = Prisma.PromiseReturnType<
   typeof getTipsWithRatingsAndCountComments
 >;
-const getTipsWithRatingsAndCountComments = (
+const getTipsWithRatingsAndCountComments = async (
   db: PrismaClient,
   limit: number,
   cursor: string | undefined,
 ) => {
-  return db.tip.findMany({
+  return await db.tip.findMany({
     cursor: cursor ? { id: cursor } : undefined,
     take: limit + 1,
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ createdAt: "desc" }, { title: "asc" }],
     include: {
       _count: {
         select: { comments: true },
@@ -46,13 +46,12 @@ export const tipRouter = createTRPCRouter({
       );
 
       let nextCursor: typeof input.cursor | undefined;
-
-      const tipsWithAuthor = await addUsersToTipWithRatingAndCountComment(tips);
-
       if (tips.length > input.limit) {
         const nextItem = tips.pop();
         if (nextItem?.id) nextCursor = nextItem.id;
       }
+
+      const tipsWithAuthor = await addUsersToTipWithRatingAndCountComment(tips);
 
       return { tips: tipsWithAuthor, nextCursor };
     }),
