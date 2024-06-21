@@ -1,48 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { api, type RouterInputs, type RouterOutputs } from "~/trpc/react";
+import React from "react";
 import TipCommentItem from "./TipCommentItem";
 import TipCommentSkeleton from "./TipCommentSkeleton";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "~/components/ui/spinner";
+import { type TipCommentsProps } from "./TipCommentsDrawer";
 
-interface TipCommentsProps {
-  tipId: string;
-}
-
-type CommentsProps = RouterOutputs["comment"]["getCommentsForTip"]["comments"];
-type CommentInput = RouterInputs["comment"]["getCommentsForTip"];
-export type TipCommentItemProps =
-  RouterOutputs["comment"]["getCommentsForTip"]["comments"][number];
-
-const TipComments: React.FC<TipCommentsProps> = ({ tipId }) => {
-  const [commentInput, setCommentInput] = React.useState<CommentInput>({
-    tipId,
-    cursor: undefined,
-    limit: 5,
-  });
-
-  const {
-    data: commentPage,
-    isLoading,
-    hasNextPage,
-    fetchNextPage,
-  } = api.comment.getCommentsForTip.useInfiniteQuery(
-    {
-      ...commentInput,
-    },
-    { getNextPageParam: (lastPage) => lastPage.nextCursor },
-  );
-
-  const [comments, setComments] = useState<CommentsProps>([]);
-
-  useEffect(() => {
-    if (commentPage) {
-      setComments(commentPage.pages.flatMap((page) => page.comments));
-    }
-  }, [commentPage]);
-
+const TipComments: React.FC<TipCommentsProps> = ({
+  comments,
+  hasNextPage,
+  fetchNextPage,
+  isLoading,
+}) => {
   return (
     <InfiniteScroll
       dataLength={comments?.length ?? 0}

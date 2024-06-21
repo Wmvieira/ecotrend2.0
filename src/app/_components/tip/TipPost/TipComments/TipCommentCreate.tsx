@@ -3,8 +3,20 @@ import { type TipCommentCreateProps } from "./TipCommentsDrawer";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
 import { FaPaperPlane } from "react-icons/fa6";
+import { api } from "~/trpc/react";
+import { useSession } from "@clerk/nextjs";
+import Spinner from "~/components/ui/spinner";
 
-const TipCommentCreate: React.FC<TipCommentCreateProps> = ({ tipId }) => {
+const TipCommentCreate: React.FC<TipCommentCreateProps> = ({
+  tipId,
+  setNewComment,
+}) => {
+  const { mutate: createComment, isPending } =
+    api.comment.createComment.useMutation({
+      onSuccess: (comment) => {
+        setNewComment({ ...comment });
+      },
+    });
   const [comment, setComment] = useState("");
 
   const handleCommentChange = (
@@ -14,6 +26,7 @@ const TipCommentCreate: React.FC<TipCommentCreateProps> = ({ tipId }) => {
   };
 
   const handleSubmit = () => {
+    createComment({ content: comment, tipId });
     setComment("");
   };
 
@@ -26,7 +39,7 @@ const TipCommentCreate: React.FC<TipCommentCreateProps> = ({ tipId }) => {
       />
       <div className="mt-auto">
         <Button onClick={handleSubmit}>
-          <FaPaperPlane />
+          {isPending ? <Spinner /> : <FaPaperPlane />}
         </Button>
       </div>
     </div>

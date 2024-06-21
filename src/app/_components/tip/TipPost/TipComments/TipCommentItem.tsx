@@ -1,8 +1,9 @@
 import React from "react";
-import { type TipCommentItemProps } from "./TipComments";
+
 import TipCommentItemAuthor from "./TipCommentItemAuthor";
 import TipCommentItemInfo from "./TipCommentItemInfo";
 import TipCommentContent from "./TipCommentContent";
+import { type TipCommentItemProps } from "./TipCommentsDrawer";
 
 export type TipCommentItemAuthorProps = {
   author: TipCommentItemProps["author"];

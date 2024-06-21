@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { currentUser } from "@clerk/nextjs/server";
+import { TRPCClientError } from "@trpc/client";
 
 export const rateRouter = createTRPCRouter({
   reateTip: publicProcedure
@@ -13,14 +14,7 @@ export const rateRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const user = await currentUser();
       if (!user) {
-        throw new Error("User not found");
-      }
-
-      const tip = await ctx.db.tip.findUnique({
-        where: { id: input.tipId },
-      });
-      if (!tip) {
-        throw new Error("Tip not found");
+        throw new TRPCClientError("User not found");
       }
 
       const rated = await ctx.db.rate.findUnique({

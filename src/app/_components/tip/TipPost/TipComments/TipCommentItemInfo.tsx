@@ -9,7 +9,7 @@ const TipCommentItemInfo: React.FC<TipCommentItemInfoProps> = ({
   return (
     <div className="flex flex-row gap-1">
       <span>{author.username}</span>
-      <span className="my-auto text-xs text-primary-foreground/60">
+      <span className="my-auto text-xs text-secondary-foreground/60">
         {dayjs(createdAt).fromNow()}
       </span>
     </div>
