@@ -19,7 +19,7 @@ const getTipsWithRatingsAndCountComments = async (
       _count: {
         select: { comments: true },
       },
-      ratings: {
+      rates: {
         select: {
           positive: true,
           authorId: true,

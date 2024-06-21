@@ -25,15 +25,15 @@ export type TipPostContentProps = {
 };
 export type TipActionsButtonProps = {
   id: TipPostProps["id"];
-  ratings: TipPostProps["ratings"];
-  setRatings: (ratings: TipPostProps["ratings"]) => void;
+  rates: TipPostProps["rates"];
+  setRates: (rates: TipPostProps["rates"]) => void;
 };
 export type TipCommentsCountProps = {
   id: TipPostProps["id"];
   count: number;
 };
 export type TipPostTrendingProps = {
-  ratings: TipPostProps["ratings"];
+  rates: TipPostProps["rates"];
 };
 
 const TipPostCard: React.FC<TipPostProps> = ({
@@ -42,10 +42,10 @@ const TipPostCard: React.FC<TipPostProps> = ({
   author,
   id,
   createdAt,
-  ratings,
+  rates,
   _count,
 }) => {
-  const [newRatings, setNewRatings] = useState(ratings);
+  const [newRates, setNewRates] = useState(rates);
 
   return (
     <Card className="relative overflow-hidden">
@@ -60,15 +60,11 @@ const TipPostCard: React.FC<TipPostProps> = ({
       </CardContent>
       <CardFooter className="py-2">
         <div className="flex w-full flex-col justify-start">
-          <TipActionsButton
-            id={id}
-            ratings={newRatings}
-            setRatings={setNewRatings}
-          />
+          <TipActionsButton id={id} rates={newRates} setRates={setNewRates} />
           <TipCommentsCount id={id} count={_count.comments} />
         </div>
       </CardFooter>
-      <TipPostTrending ratings={newRatings} />
+      <TipPostTrending rates={newRates} />
     </Card>
   );
 };

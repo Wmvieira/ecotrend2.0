@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "~/components/ui/button";
 
 interface TipActionButtonItemProps {
   icon: React.ReactNode;
@@ -15,13 +14,12 @@ const TipActionButtonItem: React.FC<TipActionButtonItemProps> = ({
   checkedClass,
 }) => {
   return (
-    <Button
-      className={`p-0 ${checked ? checkedClass : ""}`}
-      variant="ghost"
+    <div
+      className={`cursor-pointer hover:${checkedClass} p-2 ${checked ? checkedClass : ""}`}
       onClick={onClick}
     >
       <div className="h-8 w-8">{icon}</div>
-    </Button>
+    </div>
   );
 };
 

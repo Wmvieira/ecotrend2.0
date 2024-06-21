@@ -17,7 +17,7 @@ model Tip {
     authorId  String
     category  Category[]
     comments  Comment[]
-    ratings   Rating[]
+    rates     Rate[]
     pictures  Pictures[]
 }
 
@@ -44,11 +44,13 @@ model Comment {
     authorId  String
 }
 
-model Rating {
+model Rate {
     id        String   @id @default(uuid())
     tipId     String
     positive  Boolean
     createdAt DateTime @default(now())
     tip       Tip      @relation(fields: [tipId], references: [id])
     authorId  String
+
+    @@unique([tipId, authorId])
 }
