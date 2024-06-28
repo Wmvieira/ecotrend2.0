@@ -36,7 +36,10 @@ const TipRateDialog: React.FC<TipRateDialogProps> = ({ tipId, trigger }) => {
     {
       tipId,
     },
-    { getNextPageParam: (lastPage) => lastPage.nextCursor },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      refetchInterval: 3000,
+    },
   );
 
   const [rates, setrates] = useState<RateProps>([]);

@@ -19,7 +19,7 @@ const Tips = () => {
     { limit: 3 },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
-      refetchInterval: 30000,
+      refetchInterval: 3000,
     },
   );
 
