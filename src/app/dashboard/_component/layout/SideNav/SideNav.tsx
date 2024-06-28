@@ -19,7 +19,7 @@ const SideNav: React.FC = () => {
         <SideNavItem href="/search">
           <FaMagnifyingGlass />
         </SideNavItem>
-        <SideNavItem href="/post/create">
+        <SideNavItem href="/dashboard/post/create">
           <FaSquarePlus />
         </SideNavItem>
         <SideNavItem href="/trending">

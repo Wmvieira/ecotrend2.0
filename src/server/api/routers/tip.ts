@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { currentUser } from "@clerk/nextjs/server";
 import { addUsersToTipWithRatingAndCountComment } from "~/lib/users";
 import { type Prisma, type PrismaClient } from "@prisma/client";
+import { TRPCClientError } from "@trpc/client";
 
 export type TipsWithRatingsAndCountComments = Prisma.PromiseReturnType<
   typeof getTipsWithRatingsAndCountComments
@@ -54,5 +56,27 @@ export const tipRouter = createTRPCRouter({
       const tipsWithAuthor = await addUsersToTipWithRatingAndCountComment(tips);
 
       return { tips: tipsWithAuthor, nextCursor };
+    }),
+
+  createPost: publicProcedure
+    .input(
+      z.object({
+        title: z.string().max(20),
+        content: z.string().max(300),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const user = await currentUser();
+      if (!user) {
+        throw new TRPCClientError("User not found");
+      }
+
+      return await ctx.db.tip.create({
+        data: {
+          title: input.title,
+          content: input.content,
+          authorId: user.id,
+        },
+      });
     }),
 });
