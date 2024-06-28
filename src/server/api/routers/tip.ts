@@ -61,8 +61,8 @@ export const tipRouter = createTRPCRouter({
   createPost: publicProcedure
     .input(
       z.object({
-        title: z.string().max(20),
-        content: z.string().max(300),
+        title: z.string().max(120),
+        content: z.string().max(3500),
       }),
     )
     .mutation(async ({ ctx, input }) => {
