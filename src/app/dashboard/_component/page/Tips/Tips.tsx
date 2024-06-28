@@ -17,7 +17,10 @@ const Tips = () => {
     fetchNextPage,
   } = api.tip.getTips.useInfiniteQuery(
     { limit: 3 },
-    { getNextPageParam: (lastPage) => lastPage.nextCursor },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      refetchInterval: 30000,
+    },
   );
 
   const [tips, setTips] = useState<TipsProps>([]);
