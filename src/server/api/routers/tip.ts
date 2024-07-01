@@ -13,24 +13,41 @@ const getTipsWithRatingsAndCountComments = async (
   limit: number,
   cursor: string | undefined,
   searchTerm: string | undefined,
+  postOrder: boolean | undefined,
+  startDate: Date | undefined,
+  endDate: Date | undefined,
 ) => {
   return await db.tip.findMany({
     cursor: cursor ? { id: cursor } : undefined,
     take: limit + 1,
-    orderBy: [{ createdAt: "desc" }, { title: "asc" }],
-    where: searchTerm
-      ? {
-          OR: [
-            { title: { contains: searchTerm, mode: "insensitive" } },
-            { content: { contains: searchTerm, mode: "insensitive" } },
-            {
-              category: {
-                some: { name: { contains: searchTerm, mode: "insensitive" } },
-              },
+    orderBy: [
+      postOrder ? { rates: { _count: "desc" } } : {},
+      { createdAt: "desc" },
+      { title: "asc" },
+    ],
+    where: {
+      ...(startDate && endDate
+        ? {
+            createdAt: {
+              gte: startDate,
+              lte: endDate,
             },
-          ],
-        }
-      : undefined,
+          }
+        : undefined),
+      ...(searchTerm
+        ? {
+            OR: [
+              { title: { contains: searchTerm, mode: "insensitive" } },
+              { content: { contains: searchTerm, mode: "insensitive" } },
+              {
+                category: {
+                  some: { name: { contains: searchTerm, mode: "insensitive" } },
+                },
+              },
+            ],
+          }
+        : undefined),
+    },
     include: {
       _count: {
         select: { comments: true },
@@ -53,6 +70,9 @@ export const tipRouter = createTRPCRouter({
         limit: z.number().default(10),
         cursor: z.string().uuid().optional(),
         searchTerm: z.string().optional(),
+        postOrder: z.boolean().optional(),
+        startDate: z.date().optional(),
+        endDate: z.date().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -61,6 +81,9 @@ export const tipRouter = createTRPCRouter({
         input.limit,
         input.cursor,
         input.searchTerm,
+        input.postOrder,
+        input.startDate,
+        input.endDate,
       );
 
       let nextCursor: typeof input.cursor | undefined;

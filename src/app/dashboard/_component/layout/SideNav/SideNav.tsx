@@ -22,7 +22,7 @@ const SideNav: React.FC = () => {
         <SideNavItem href="/dashboard/post/create">
           <FaSquarePlus />
         </SideNavItem>
-        <SideNavItem href="/trending">
+        <SideNavItem href="/dashboard/trending">
           <FaChartLine />
         </SideNavItem>
         <div className="md:mx-auto">

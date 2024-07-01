@@ -10,16 +10,24 @@ import Spinner from "~/components/ui/spinner";
 type TipsProps = RouterOutputs["tip"]["getTips"]["tips"];
 interface TipsComponentProps {
   searchTerm?: string;
+  startDate?: Date;
+  endDate?: Date;
+  postOrder?: boolean;
 }
 
-const Tips: React.FC<TipsComponentProps> = ({ searchTerm }) => {
+const Tips: React.FC<TipsComponentProps> = ({
+  searchTerm,
+  endDate,
+  postOrder,
+  startDate,
+}) => {
   const {
     data: tipPages,
     isLoading,
     hasNextPage,
     fetchNextPage,
   } = api.tip.getTips.useInfiniteQuery(
-    { limit: 3, searchTerm },
+    { limit: 20, searchTerm, postOrder, startDate, endDate },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchInterval: 3000,
