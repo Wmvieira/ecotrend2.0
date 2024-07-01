@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { FaChevronLeft } from "react-icons/fa6";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -11,11 +13,27 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 
-const HeaderSearch: React.FC = () => {
+interface HeaderSearchProps {
+  onSearch: (term: string) => void;
+}
+
+const HeaderSearch: React.FC<HeaderSearchProps> = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    onSearch(term);
+  };
+
   return (
     <div className="flex flex-row gap-5">
       <div>
-        <Input placeholder="Buscar" />
+        <Input
+          placeholder="Buscar"
+          value={searchTerm}
+          onChange={handleInputChange}
+        />
       </div>
       <div>
         <Sheet>
