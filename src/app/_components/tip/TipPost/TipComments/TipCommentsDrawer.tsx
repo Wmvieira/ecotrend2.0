@@ -46,7 +46,10 @@ const TipCommentsDrawer: React.FC<TipCommentsDrawerProps> = ({
     {
       tipId,
     },
-    { getNextPageParam: (lastPage) => lastPage.nextCursor },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+      refetchInterval: 3000,
+    },
   );
 
   const [comments, setComments] = useState<CommentsProps>([]);

@@ -47,9 +47,7 @@ const Tips = () => {
         scrollableTarget="feedScroll"
       >
         {isLoading && <TipPostSkeleton />}
-        {tips?.map((tip) => (
-          <TipPostCard key={tip.id} {...tip} />
-        ))}
+        {tips?.map((tip) => <TipPostCard key={tip.id} {...tip} />)}
       </InfiniteScroll>
     </div>
   );

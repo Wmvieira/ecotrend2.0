@@ -4,7 +4,6 @@ import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
 import { FaPaperPlane } from "react-icons/fa6";
 import { api } from "~/trpc/react";
-import { useSession } from "@clerk/nextjs";
 import Spinner from "~/components/ui/spinner";
 
 const TipCommentCreate: React.FC<TipCommentCreateProps> = ({

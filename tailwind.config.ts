@@ -27,16 +27,16 @@ const config = {
       colors: {
         border: "#1D4C4F",
         input: "#1D4C4F",
-        ring: "#0B6E4F",
+        ring: "#28B67E",
         background: "#ECE9E9",
         foreground: "#0D1321",
         primary: {
-          DEFAULT: "#0B6E4F",
+          DEFAULT: "#28B67E",
           foreground: "#ECE9E9",
         },
         secondary: {
           DEFAULT: "#D3DCDE",
-          foreground: "#0B6E4F",
+          foreground: "#28B67E",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -47,7 +47,7 @@ const config = {
           foreground: "#1D4C4F",
         },
         accent: {
-          DEFAULT: "#0B6E4F",
+          DEFAULT: "#28B67E",
           foreground: "#1D4C4F",
         },
         popover: {
