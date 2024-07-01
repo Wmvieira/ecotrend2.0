@@ -18,7 +18,11 @@ const TipFormPage: React.FC = () => {
 
   const { mutate: createTip, isPending } = api.tip.createPost.useMutation({
     onSuccess: () => {
-      toast({ content: "Postagem criada com sucesso" });
+      toast({
+        // variant: "destructive",
+        title: "Sucesso.",
+        description: "Você acabou de realizar uma publicação.",
+      });
       void router.push("/dashboard");
     },
   });
