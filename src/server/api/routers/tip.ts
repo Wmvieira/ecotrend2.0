@@ -12,11 +12,25 @@ const getTipsWithRatingsAndCountComments = async (
   db: PrismaClient,
   limit: number,
   cursor: string | undefined,
+  searchTerm: string | undefined,
 ) => {
   return await db.tip.findMany({
     cursor: cursor ? { id: cursor } : undefined,
     take: limit + 1,
     orderBy: [{ createdAt: "desc" }, { title: "asc" }],
+    where: searchTerm
+      ? {
+          OR: [
+            { title: { contains: searchTerm, mode: "insensitive" } },
+            { content: { contains: searchTerm, mode: "insensitive" } },
+            {
+              category: {
+                some: { name: { contains: searchTerm, mode: "insensitive" } },
+              },
+            },
+          ],
+        }
+      : undefined,
     include: {
       _count: {
         select: { comments: true },
@@ -38,6 +52,7 @@ export const tipRouter = createTRPCRouter({
       z.object({
         limit: z.number().default(10),
         cursor: z.string().uuid().optional(),
+        searchTerm: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -45,6 +60,7 @@ export const tipRouter = createTRPCRouter({
         ctx.db,
         input.limit,
         input.cursor,
+        input.searchTerm,
       );
 
       let nextCursor: typeof input.cursor | undefined;

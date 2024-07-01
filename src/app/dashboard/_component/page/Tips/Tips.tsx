@@ -8,15 +8,18 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Spinner from "~/components/ui/spinner";
 
 type TipsProps = RouterOutputs["tip"]["getTips"]["tips"];
+interface TipsComponentProps {
+  searchTerm?: string;
+}
 
-const Tips = () => {
+const Tips: React.FC<TipsComponentProps> = ({ searchTerm }) => {
   const {
     data: tipPages,
     isLoading,
     hasNextPage,
     fetchNextPage,
   } = api.tip.getTips.useInfiniteQuery(
-    { limit: 3 },
+    { limit: 3, searchTerm },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchInterval: 3000,
@@ -37,7 +40,7 @@ const Tips = () => {
       hasMore={hasNextPage}
       next={fetchNextPage}
       loader={<Spinner />}
-      className="flex flex-col justify-center gap-5 p-2"
+      className="flex flex-col justify-center gap-5"
       scrollableTarget="feedScroll"
     >
       {isLoading && <TipPostSkeleton />}

@@ -43,7 +43,7 @@ const TipFormPage: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center gap-2 p-2 md:px-14"
+      className="flex flex-col items-center justify-center gap-2 md:px-14"
     >
       <div className="w-full">
         <label className="text-lg font-bold">Titulo</label>

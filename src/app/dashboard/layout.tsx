@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Header />
       <div className="flex h-[calc(100%-4em)] w-full flex-col md:h-[calc(100%-6em)] md:flex-row-reverse">
         <main
-          className="h-full w-full grow overflow-scroll p-2"
+          className="h-full w-full grow overflow-scroll p-5"
           id="feedScroll"
         >
           {children}
