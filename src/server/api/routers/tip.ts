@@ -92,6 +92,7 @@ export const tipRouter = createTRPCRouter({
           title: input.title,
           content: input.content,
           authorId: user.id,
+          createdAt: new Date(),
         },
       });
     }),
