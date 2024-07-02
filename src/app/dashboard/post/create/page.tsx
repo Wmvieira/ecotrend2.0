@@ -32,8 +32,9 @@ const TipFormPage: React.FC = () => {
   const handlePush = (value: string) => {
     if (categories.includes(value)) {
       setCategories(categories.filter((category) => category !== value));
+    } else {
+      setCategories([...categories, value]);
     }
-    setCategories([...categories, value]);
   };
 
   const handleAddDescription = (
@@ -87,7 +88,13 @@ const TipFormPage: React.FC = () => {
       <div className="flex w-full flex-col">
         <div className="flex flex-wrap pb-4">
           {categories.map((category) => (
-            <span key={category} className="px-2 py-1 text-sm text-gray-500">
+            <span
+              key={category}
+              className="px-2 py-1 text-sm text-gray-500"
+              onClick={() =>
+                setCategories(categories.filter((c) => c !== category))
+              }
+            >
               #{category}
             </span>
           ))}
