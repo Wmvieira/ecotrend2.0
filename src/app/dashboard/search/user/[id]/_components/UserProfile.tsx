@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { use } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Skeleton } from "~/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -24,14 +25,17 @@ const UserProfile: React.FC<UserProfileProps> = ({ id }) => {
   return (
     <div className="flex w-full flex-col justify-center gap-2">
       {userLoading ? (
-        <div>Loading...</div>
+        <>
+          <Skeleton className="mx-auto h-28 w-28 rounded-full bg-primary/30" />
+          <Skeleton className="mx-auto h-4 w-32 bg-primary/30" />
+        </>
       ) : (
         <>
           <Avatar className="mx-auto h-28 w-28 text-lg">
             <AvatarImage src={author?.imageUrl} alt={username ?? ""} />
             <AvatarFallback>{username ? username[0] : "EC"}</AvatarFallback>
           </Avatar>
-          <h3 className="mx-auto text-3xl md:text-base">{username}</h3>
+          <h3 className="mx-auto text-xl md:text-2xl">{username}</h3>
         </>
       )}
     </div>
