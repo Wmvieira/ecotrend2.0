@@ -14,6 +14,7 @@ import TipActionsButton from "./TipActionButton/TipActionsButton";
 import TipCommentsCount from "./TipComments/TipCommentsCount";
 import TipPostTrending from "./TipPostTrending";
 import TipPostAuthor from "./TipPostAuthor";
+import TipPostCategories from "./TipPostCategories";
 
 type TipPostProps = RouterOutputs["tip"]["getTips"]["tips"][number];
 
@@ -36,6 +37,9 @@ export type TipPostTrendingProps = {
   id: TipPostProps["id"];
   rates: TipPostProps["rates"];
 };
+export type TipPostCategoriesProps = {
+  categories: TipPostProps["category"];
+};
 
 const TipPostCard: React.FC<TipPostProps> = ({
   title,
@@ -44,6 +48,7 @@ const TipPostCard: React.FC<TipPostProps> = ({
   id,
   createdAt,
   rates,
+  category,
   _count,
 }) => {
   const [newRates, setNewRates] = useState(rates);
@@ -58,6 +63,7 @@ const TipPostCard: React.FC<TipPostProps> = ({
       </CardHeader>
       <CardContent>
         <TipPostContent content={content} title={title} />
+        <TipPostCategories categories={category} />
       </CardContent>
       <CardFooter className="py-2">
         <div className="flex w-full flex-col justify-start">

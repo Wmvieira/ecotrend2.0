@@ -59,6 +59,11 @@ const getTipsWithRatingsAndCountComments = async (
           id: true,
         },
       },
+      category: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 };
@@ -102,6 +107,7 @@ export const tipRouter = createTRPCRouter({
       z.object({
         title: z.string().max(120),
         content: z.string().max(3500),
+        categories: z.array(z.string()).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -116,6 +122,12 @@ export const tipRouter = createTRPCRouter({
           content: input.content,
           authorId: user.id,
           createdAt: new Date(),
+          category: {
+            connectOrCreate: input.categories?.map((category) => ({
+              where: { name: category },
+              create: { name: category },
+            })),
+          },
         },
       });
     }),

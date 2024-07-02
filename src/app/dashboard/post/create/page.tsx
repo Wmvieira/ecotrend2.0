@@ -8,12 +8,14 @@ import { api } from "~/trpc/react";
 import Spinner from "~/components/ui/spinner";
 import { FaPaperPlane } from "react-icons/fa6";
 import { toast } from "~/components/ui/use-toast";
+import { CategoryComboBox } from "~/app/_components/category/CategoryCombobox";
 
 const MAX_TEXTAREA_LENGTH = 3500;
 
 const TipFormPage: React.FC = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [categories, setCategories] = useState<string[]>([]);
   const router = useRouter();
 
   const { mutate: createTip, isPending } = api.tip.createPost.useMutation({
@@ -26,6 +28,13 @@ const TipFormPage: React.FC = () => {
       void router.push("/dashboard");
     },
   });
+
+  const handlePush = (value: string) => {
+    if (categories.includes(value)) {
+      setCategories(categories.filter((category) => category !== value));
+    }
+    setCategories([...categories, value]);
+  };
 
   const handleAddDescription = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
@@ -41,6 +50,7 @@ const TipFormPage: React.FC = () => {
     createTip({
       title,
       content: description,
+      categories,
     });
   };
 
@@ -73,6 +83,19 @@ const TipFormPage: React.FC = () => {
         <span className="text-sm text-gray-500">
           {MAX_TEXTAREA_LENGTH - description.length} caracteres restantes
         </span>
+      </div>
+      <div className="flex w-full flex-col">
+        <div className="flex flex-wrap pb-4">
+          {categories.map((category) => (
+            <span key={category} className="px-2 py-1 text-sm text-gray-500">
+              #{category}
+            </span>
+          ))}
+        </div>
+        <label>Categorias</label>
+        <div className="flex w-full flex-row gap-2">
+          <CategoryComboBox handlePush={handlePush} />
+        </div>
       </div>
       <div className="flex w-full justify-end">
         <Button onClick={handleSubmit}>
