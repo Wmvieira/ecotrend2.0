@@ -8,6 +8,7 @@ import { TRPCClientError } from "@trpc/client";
 export type TipsWithRatingsAndCountComments = Prisma.PromiseReturnType<
   typeof getTipsWithRatingsAndCountComments
 >;
+
 const getTipsWithRatingsAndCountComments = async (
   db: PrismaClient,
   limit: number,
@@ -66,6 +67,40 @@ const getTipsWithRatingsAndCountComments = async (
       },
     },
   });
+};
+
+const getUserTipsWithRatingsAndCountComments = async (
+  db: PrismaClient,
+  userId: string
+) => {
+  console.log("Fetching tips for user ID:", userId);  // Adicione este log
+  const tips = await db.tip.findMany({
+    where: {
+      authorId: userId,
+    },
+    include: {
+      _count: {
+        select: { comments: true },
+      },
+      rates: {
+        select: {
+          positive: true,
+          authorId: true,
+          id: true,
+        },
+      },
+      category: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: [
+      { createdAt: "desc" },
+    ],
+  });
+  console.log("Fetched tips:", tips);  // Adicione este log
+  return tips;
 };
 
 export const tipRouter = createTRPCRouter({
@@ -130,5 +165,13 @@ export const tipRouter = createTRPCRouter({
           },
         },
       });
+    }),
+
+  getUserTips: publicProcedure
+    .input(z.string())  // Aceitar uma string genérica
+    .query(async ({ ctx, input }) => {
+      const tips = await getUserTipsWithRatingsAndCountComments(ctx.db, input);
+      const tipsWithAuthor = await addUsersToTipWithRatingAndCountComment(tips);
+      return tipsWithAuthor;
     }),
 });
