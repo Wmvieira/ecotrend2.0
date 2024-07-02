@@ -13,6 +13,7 @@ interface TipsComponentProps {
   startDate?: Date;
   endDate?: Date;
   postOrder?: boolean;
+  userId?: string;
 }
 
 const Tips: React.FC<TipsComponentProps> = ({
@@ -20,6 +21,7 @@ const Tips: React.FC<TipsComponentProps> = ({
   endDate,
   postOrder,
   startDate,
+  userId,
 }) => {
   const {
     data: tipPages,
@@ -27,7 +29,7 @@ const Tips: React.FC<TipsComponentProps> = ({
     hasNextPage,
     fetchNextPage,
   } = api.tip.getTips.useInfiniteQuery(
-    { limit: 20, searchTerm, postOrder, startDate, endDate },
+    { limit: 20, searchTerm, postOrder, startDate, endDate, userId },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
       refetchInterval: 3000,

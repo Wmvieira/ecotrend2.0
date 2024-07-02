@@ -17,6 +17,7 @@ const getTipsWithRatingsAndCountComments = async (
   postOrder: boolean | undefined,
   startDate: Date | undefined,
   endDate: Date | undefined,
+  userId: string | undefined,
 ) => {
   return await db.tip.findMany({
     cursor: cursor ? { id: cursor } : undefined,
@@ -27,6 +28,7 @@ const getTipsWithRatingsAndCountComments = async (
       { title: "asc" },
     ],
     where: {
+      ...(userId ? { authorId: userId } : undefined),
       ...(startDate && endDate
         ? {
             createdAt: {
@@ -69,40 +71,6 @@ const getTipsWithRatingsAndCountComments = async (
   });
 };
 
-const getUserTipsWithRatingsAndCountComments = async (
-  db: PrismaClient,
-  userId: string
-) => {
-  console.log("Fetching tips for user ID:", userId);  // Adicione este log
-  const tips = await db.tip.findMany({
-    where: {
-      authorId: userId,
-    },
-    include: {
-      _count: {
-        select: { comments: true },
-      },
-      rates: {
-        select: {
-          positive: true,
-          authorId: true,
-          id: true,
-        },
-      },
-      category: {
-        select: {
-          name: true,
-        },
-      },
-    },
-    orderBy: [
-      { createdAt: "desc" },
-    ],
-  });
-  console.log("Fetched tips:", tips);  // Adicione este log
-  return tips;
-};
-
 export const tipRouter = createTRPCRouter({
   getTips: publicProcedure
     .input(
@@ -113,6 +81,7 @@ export const tipRouter = createTRPCRouter({
         postOrder: z.boolean().optional(),
         startDate: z.date().optional(),
         endDate: z.date().optional(),
+        userId: z.string().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -124,6 +93,7 @@ export const tipRouter = createTRPCRouter({
         input.postOrder,
         input.startDate,
         input.endDate,
+        input.userId,
       );
 
       let nextCursor: typeof input.cursor | undefined;
@@ -165,13 +135,5 @@ export const tipRouter = createTRPCRouter({
           },
         },
       });
-    }),
-
-  getUserTips: publicProcedure
-    .input(z.string())  // Aceitar uma string genérica
-    .query(async ({ ctx, input }) => {
-      const tips = await getUserTipsWithRatingsAndCountComments(ctx.db, input);
-      const tipsWithAuthor = await addUsersToTipWithRatingAndCountComment(tips);
-      return tipsWithAuthor;
     }),
 });

@@ -56,7 +56,8 @@ export const commentsRouter = createTRPCRouter({
         ...comment,
         author: {
           id: user.id,
-          username: user.username ?? user.firstName,
+          username:
+            user.username ?? `${user?.firstName} ${user?.lastName}` ?? "",
           imageUrl: user.imageUrl,
         },
       };

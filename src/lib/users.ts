@@ -6,12 +6,12 @@ import { type TipsWithRatingsAndCountComments } from "~/server/api/routers/tip";
 export const filterUserFromClient = (user: User) => {
   return {
     id: user.id,
-    username: user.username ?? user.firstName,
+    username: user.username ?? `${user?.firstName} ${user?.lastName}` ?? "",
     imageUrl: user.imageUrl,
   };
 };
 
-const getUser = async (id: string) => {
+export const getUser = async (id: string) => {
   return await clerkClient.users.getUser(id);
 };
 
